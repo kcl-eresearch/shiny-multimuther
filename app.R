@@ -13,6 +13,8 @@ library(dplyr)
 
 
 table_s2 <- readxl::read_excel("../data/MM_SupplementaryTables.xlsx", sheet = "S2")
+table_s6 <- readxl::read_excel("../data/MM_SupplementaryTables.xlsx", sheet = "S6")
+
 unique_genes <- sort(unique(table_s2$Gene))
 all_column_names <- names(table_s2)
 default_columns <- c("Gene", "Beta", "SE", "Pvalue_Fixed", "Pvalue_RandomSlope",
@@ -34,12 +36,18 @@ ui <- fluidPage(
                          selected = NULL, choices = NULL, multiple = TRUE),
           # select columns to show
           checkboxGroupInput("show_cols", "Columns to show",
-                             all_column_names, selected = default_columns)
+                             all_column_names, selected = default_columns),
+          width = 2
         ),
 
         # Show the data table
         mainPanel(
-           DT::DTOutput("table_s2")
+          includeMarkdown("text/desc_table_s2.md"),
+          DT::DTOutput("table_s2"),
+          
+          HTML("<br><br>"),
+          includeMarkdown("text/desc_table_s6.md"),
+          DT::DTOutput("table_s6")
         ),
     )
 )
@@ -50,7 +58,7 @@ server <- function(input, output, session) {
   updateSelectizeInput(session, "gene_name",
                        choices = unique_genes, selected = NULL, server = TRUE)
   
-  dataset_filtered <- reactive({
+  table_s2_filtered <- reactive({
     if (is.null(input$gene_name)) {
       df <- table_s2
     } else if (length(input$gene_name) == 1 && input$gene_name == ""){
@@ -65,9 +73,28 @@ server <- function(input, output, session) {
     return(df)
   })
   
+  table_s6_filtered <- reactive({
+    if (is.null(input$gene_name)) {
+      df <- table_s6
+    } else if (length(input$gene_name) == 1 && input$gene_name == ""){
+      df <- table_s6
+    } else {
+      df <- table_s6 %>% 
+        dplyr::filter(Gene %in% input$gene_name)
+    }
+    
+    df <- df %>%
+      dplyr::select(any_of(c("Gene", input$show_cols)))
+    return(df)
+  })
+  
   output$table_s2 <- DT::renderDT({
-    dataset_filtered()
-    }) 
+    table_s2_filtered()
+    })
+  
+  output$table_s6 <- DT::renderDT({
+    table_s6_filtered()
+  })
 
 }
 
