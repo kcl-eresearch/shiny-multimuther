@@ -11,6 +11,7 @@ library(shiny)
 library(readxl)
 library(dplyr)
 
+
 table_s2 <- readxl::read_excel("../data/MM_SupplementaryTables.xlsx", sheet = "S2")
 unique_genes <- sort(unique(table_s2$Gene))
 
@@ -38,10 +39,9 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   
   updateSelectizeInput(session, "gene_name",
-                       choices = unique_genes, selected = NULL)
+                       choices = unique_genes, selected = NULL, server = TRUE)
   
   output$table_s2 <- DT::renderDT({
-    message(input$gene_name)
     if (is.null(input$gene_name)) {
       table_s2
     } else if (length(input$gene_name) == 1 && input$gene_name == ""){
@@ -50,7 +50,7 @@ server <- function(input, output, session) {
       table_s2 %>% 
         dplyr::filter(Gene %in% input$gene_name)
     }
-    })
+    }) 
 
 }
 
