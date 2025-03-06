@@ -10,10 +10,14 @@
 library(shiny)
 library(readxl)
 library(dplyr)
+source("tableModule.R")
 
 
 table_s2 <- readxl::read_excel("../data/MM_SupplementaryTables.xlsx", sheet = "S2")
 table_s6 <- readxl::read_excel("../data/MM_SupplementaryTables.xlsx", sheet = "S6")
+
+table_list <- list("table_s2" = table_s2,
+                   "table_s6" = table_s6)
 
 unique_genes <- sort(unique(table_s2$Gene))
 all_column_names <- names(table_s2)
@@ -44,9 +48,9 @@ ui <- fluidPage(
           includeMarkdown("text/desc_table_s2.md"),
           DT::DTOutput("table_s2"),
           
+          
           HTML("<br><br>"),
-          includeMarkdown("text/desc_table_s6.md"),
-          DT::DTOutput("table_s6")
+          tableUI("table_s6")
         ),
     )
 )
@@ -68,31 +72,17 @@ server <- function(input, output, session) {
     }
     
     df <- df %>%
-      dplyr::select(any_of(c("Gene", input$show_cols)))
+      dplyr::select(any_of(input$show_cols))
     return(df)
   })
   
-  table_s6_filtered <- reactive({
-    if (is.null(input$gene_name)) {
-      df <- table_s6
-    } else if (length(input$gene_name) == 1 && input$gene_name == ""){
-      df <- table_s6
-    } else {
-      df <- table_s6 %>% 
-        dplyr::filter(Gene %in% input$gene_name)
-    }
-    
-    return(df)
-  })
   
   output$table_s2 <- DT::renderDT({
     table_s2_filtered()
     })
-  
-  output$table_s6 <- DT::renderDT({
-    table_s6_filtered()
-  })
 
+
+  tableServer("table_s6", table_list[["table_s6"]], reactive(input$gene_name))
 }
 
 # Run the application 
