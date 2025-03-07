@@ -32,14 +32,14 @@ tableUI <- function(id){
           )
 }
 
-tableServer <- function(id, data, gene_name = reactive(NULL), column_name, cols = reactive(NULL)){
-  stopifnot(is.reactive(gene_name))
+tableServer <- function(id, data, row_id = reactive(NULL), id_column_name, cols = reactive(NULL)){
+  stopifnot(is.reactive(row_id))
   stopifnot(!is.reactive(data))
-  stopifnot(!is.reactive(column_name))
+  stopifnot(!is.reactive(id_column_name))
   
   moduleServer(id, function(input, output, session){
     filtered_data <- reactive({
-      filter_by_row(data, column_name, gene_name()) %>% 
+      filter_by_row(data, id_column_name, row_id()) %>% 
         filter_by_column(cols())
       })
     
