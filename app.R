@@ -45,9 +45,7 @@ ui <- fluidPage(
 
         # Show the data tables
         mainPanel(
-          includeMarkdown("text/desc_table_s2.md"),
-          DT::DTOutput("table_s2"),
-          
+          tableUI("table_s2"),
           
           HTML("<br><br>"),
           tableUI("table_s6")
@@ -60,28 +58,9 @@ server <- function(input, output, session) {
   
   updateSelectizeInput(session, "gene_name",
                        choices = unique_genes, selected = NULL, server = TRUE)
-  
-  table_s2_filtered <- reactive({
-    if (is.null(input$gene_name)) {
-      df <- table_s2
-    } else if (length(input$gene_name) == 1 && input$gene_name == ""){
-      df <- table_s2
-    } else {
-      df <- table_s2 %>% 
-        dplyr::filter(Gene %in% input$gene_name)
-    }
-    
-    df <- df %>%
-      dplyr::select(any_of(input$show_cols))
-    return(df)
-  })
-  
-  
-  output$table_s2 <- DT::renderDT({
-    table_s2_filtered()
-    })
 
-
+  tableServer("table_s2", table_list[["table_s2"]], reactive(input$gene_name),
+              reactive(input$show_cols))
   tableServer("table_s6", table_list[["table_s6"]], reactive(input$gene_name))
 }
 

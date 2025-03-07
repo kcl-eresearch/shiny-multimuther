@@ -13,6 +13,17 @@ filter_by_gene_name <- function(data, gene_name){
 }
 
 
+filter_by_column <- function(data, cols){
+  if (is.null(cols)) {
+    df <- data
+  } else {
+    df <- data %>% 
+      dplyr::select(any_of(cols))
+  }
+  return(df)
+}
+
+
 tableUI <- function(id){
   
   table_info_filename <- paste0("text/desc_", id, ".md")
@@ -22,12 +33,15 @@ tableUI <- function(id){
           )
 }
 
-tableServer <- function(id, data, gene_name = reactive(NULL)){
+tableServer <- function(id, data, gene_name = reactive(NULL), cols = reactive(NULL)){
   stopifnot(is.reactive(gene_name))
   stopifnot(!is.reactive(data))
   
   moduleServer(id, function(input, output, session){
-    filtered_data <- reactive(filter_by_gene_name(data, gene_name()))
+    filtered_data <- reactive({
+      filter_by_gene_name(data, gene_name()) %>% 
+        filter_by_column(cols())
+      })
     
     output$table <- DT::renderDT(filtered_data())
 })
