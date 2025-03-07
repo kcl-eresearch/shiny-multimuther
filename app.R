@@ -29,8 +29,8 @@ table_list <- c(table_list, tables_with_extra_header_rows)
 ## Prepare defaults -----------------------------------------------------------
 
 unique_genes <- sort(unique(table_list$table_s2$Gene))
-all_column_names <- names(table_list$table_s2)
-default_columns <- c(
+all_column_names_genes <- names(table_list$table_s2)
+default_columns_genes <- c(
   "GencodeID",
   "Gene",
   "Beta",
@@ -44,7 +44,21 @@ default_columns <- c(
 )
 
 unique_metabolites <- unique(table_list$table_s5$BIOCHEMICAL)
-
+all_column_names_metabolites <- names(table_list$table_s5)
+default_columns_metabolites <- c(
+  "ComponentID",
+  "BIOCHEMICAL",                         
+  "SUPER.PATHWAY",
+  "SUB.PATHWAY",
+  "Beta",
+  "SE",
+  "Pvalue_Fixed",
+  "FDR_Fixed (BH)",
+  "FDR_RandomSlope (BH)",
+  "FDR_RandomSlopeOnly",
+  "Population level Change over time",
+  "Individual-specific change over time"
+)
 
 ## Define UI ------------------------------------------------------------------
 
@@ -64,10 +78,10 @@ ui <- navbarPage(
         ),
         # select columns to show
         checkboxGroupInput(
-          "show_cols",
+          "show_cols_genes",
           "Columns to show (Table S2)",
-          all_column_names,
-          selected = default_columns
+          all_column_names_genes,
+          selected = default_columns_genes
         ),
         width = 2
       ),
@@ -102,6 +116,13 @@ ui <- navbarPage(
            selected = NULL,
            choices = NULL,
            multiple = TRUE
+         ),
+         # select columns to show
+         checkboxGroupInput(
+           "show_cols_metabolites",
+           "Columns to show (Table S5)",
+           all_column_names_metabolites,
+           selected = default_columns_metabolites
          ),
          width = 2
        ),
@@ -142,7 +163,7 @@ server <- function(input, output, session) {
               table_list[["table_s2"]],
               reactive(input$gene_name),
               column_name = "Gene",
-              reactive(input$show_cols))
+              reactive(input$show_cols_genes))
   tableServer("table_s6", table_list[["table_s6"]], reactive(input$gene_name), column_name = "Gene")
   tableServer("table_s8", table_list[["table_s8"]], reactive(input$gene_name), column_name = "Gene")
   tableServer("table_s10", table_list[["table_s10"]], reactive(input$gene_name), column_name = "Gene")
@@ -156,7 +177,11 @@ server <- function(input, output, session) {
     server = TRUE
   )
   
-  tableServer("table_s5", table_list[["table_s5"]], reactive(input$metabolite), column_name = "BIOCHEMICAL")
+  tableServer("table_s5", 
+              table_list[["table_s5"]], 
+              reactive(input$metabolite), 
+              column_name = "BIOCHEMICAL",
+              reactive(input$show_cols_metabolites))
   tableServer("table_s7", table_list[["table_s7"]], reactive(input$metabolite), column_name = "BIOCHEMICAL")
   tableServer("table_s9", table_list[["table_s9"]], reactive(input$metabolite), column_name = "BIOCHEMICAL")
   tableServer("table_s11", table_list[["table_s11"]], reactive(input$metabolite), column_name = "BIOCHEMICAL")
