@@ -1,6 +1,7 @@
 library(shiny)
 library(readxl)
 library(dplyr)
+library(shinyhelper)
 source("tableModule.R")
 
 ## Read data ------------------------------------------------------------------
@@ -82,7 +83,7 @@ ui <- navbarPage(
           "Columns to show (Table S2)",
           all_column_names_genes,
           selected = default_columns_genes
-        ),
+        ) %>% helper(content = "genes_cols"),
         width = 2
       ),
       
@@ -123,7 +124,7 @@ ui <- navbarPage(
            "Columns to show (Table S5)",
            all_column_names_metabolites,
            selected = default_columns_metabolites
-         ),
+         ) %>% helper(content = "metabolites_cols"),
          width = 2
        ),
        
@@ -151,6 +152,8 @@ ui <- navbarPage(
 ## Define server logic --------------------------------------------------------
 
 server <- function(input, output, session) {
+  observe_helpers()
+  
   updateSelectizeInput(
     session,
     "gene_name",
@@ -175,7 +178,7 @@ server <- function(input, output, session) {
     choices = unique_metabolites,
     selected = NULL,
     server = TRUE
-  )
+  ) 
   
   tableServer("table_s5", 
               table_list[["table_s5"]], 
