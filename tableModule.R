@@ -25,7 +25,6 @@ filter_by_column <- function(data, cols){
 
 
 tableUI <- function(id){
-  
   table_info_filename <- paste0("text/desc_", id, ".md")
   
   tagList(includeMarkdown(table_info_filename),

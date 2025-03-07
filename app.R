@@ -1,23 +1,23 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    https://shiny.posit.co/
-#
-
 library(shiny)
 library(readxl)
 library(dplyr)
 source("tableModule.R")
 
+sheets <- paste0("S", c(2, 5, 6:9))
+sheets_with_extra_header_rows <- c(10, 11, 12, 13)
 
-table_s2 <- readxl::read_excel("../data/MM_SupplementaryTables.xlsx", sheet = "S2")
-table_s6 <- readxl::read_excel("../data/MM_SupplementaryTables.xlsx", sheet = "S6")
+table_list <- lapply(sheets, function(s){
+  readxl::read_excel("../data/MM_SupplementaryTables.xlsx", sheet = s)
+}) %>% setNames(tolower(paste0("table_", sheets)))
 
-table_list <- list("table_s2" = table_s2,
-                   "table_s6" = table_s6)
+tables_with_extra_header_rows <- lapply(sheets_with_extra_header_rows, function(s){
+  tab <- readxl::read_excel("../data/MM_SupplementaryTables.xlsx", sheet = s, skip = 1, .name_repair = "minimal")
+  names(tab)[6:9] <- paste(names(tab)[6:9], "(first visit)")
+  names(tab)[10:13] <- paste(names(tab)[10:13], "(last visit)")
+  return(tab)
+}) %>% setNames(tolower(paste0("table_", sheets_with_extra_header_rows)))
+
+table_list <- c(table_list, tables_with_extra_header_rows)
 
 unique_genes <- sort(unique(table_s2$Gene))
 all_column_names <- names(table_s2)
@@ -25,7 +25,7 @@ default_columns <- c("GencodeID", "Gene", "Beta", "SE", "Pvalue_Fixed", "FDR_Fix
                      "FDR_RandomSlopeOnly", "Population level Change over time",
                      "Individual-specific change over time")
 
-# Define UI for application that draws a histogram
+# Define UI for application 
 ui <- fluidPage(
 
     # Application title
