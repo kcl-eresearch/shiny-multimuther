@@ -1,4 +1,4 @@
-**Table S5 ** :Summary statistics for all metabolites from longitudinal metabolome-wide
+**Table S5** :Summary statistics for all metabolites from longitudinal metabolome-wide
 association analysis of serum metabolite levels against time from baseline visit in the
 MultiMuTHER study. Betas and standard errors for each metabolite are for the time from
 baseline visit fixed effect in a longitudinal random slope and random intercept mixed effects
