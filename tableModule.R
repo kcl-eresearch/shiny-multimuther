@@ -1,13 +1,13 @@
-filter_by_gene_name <- function(data, gene_name){
-  if (length(gene_name) == 1 && gene_name == ""){
-    gene_name <- NULL
+filter_by_row <- function(data, column_name, id){
+  if (length(id) == 1 && id == ""){
+    id <- NULL
   }
   
-  if (is.null(gene_name)) {
+  if (is.null(id)) {
     df <- data
   } else {
     df <- data %>% 
-      dplyr::filter(Gene %in% gene_name)
+      dplyr::filter(.data[[column_name]] %in% id)
   }
   return(df)
 }
@@ -32,13 +32,14 @@ tableUI <- function(id){
           )
 }
 
-tableServer <- function(id, data, gene_name = reactive(NULL), cols = reactive(NULL)){
+tableServer <- function(id, data, gene_name = reactive(NULL), column_name, cols = reactive(NULL)){
   stopifnot(is.reactive(gene_name))
   stopifnot(!is.reactive(data))
+  stopifnot(!is.reactive(column_name))
   
   moduleServer(id, function(input, output, session){
     filtered_data <- reactive({
-      filter_by_gene_name(data, gene_name()) %>% 
+      filter_by_row(data, column_name, gene_name()) %>% 
         filter_by_column(cols())
       })
     

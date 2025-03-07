@@ -141,11 +141,12 @@ server <- function(input, output, session) {
   tableServer("table_s2",
               table_list[["table_s2"]],
               reactive(input$gene_name),
+              column_name = "Gene",
               reactive(input$show_cols))
-  tableServer("table_s6", table_list[["table_s6"]], reactive(input$gene_name))
-  tableServer("table_s8", table_list[["table_s8"]], reactive(input$gene_name))
-  tableServer("table_s10", table_list[["table_s10"]], reactive(input$gene_name))
-  tableServer("table_s12", table_list[["table_s12"]], reactive(input$gene_name))
+  tableServer("table_s6", table_list[["table_s6"]], reactive(input$gene_name), column_name = "Gene")
+  tableServer("table_s8", table_list[["table_s8"]], reactive(input$gene_name), column_name = "Gene")
+  tableServer("table_s10", table_list[["table_s10"]], reactive(input$gene_name), column_name = "Gene")
+  tableServer("table_s12", table_list[["table_s12"]], reactive(input$gene_name), column_name = "Gene")
   
   updateSelectizeInput(
     session,
@@ -155,11 +156,11 @@ server <- function(input, output, session) {
     server = TRUE
   )
   
-  tableServer("table_s5", table_list[["table_s5"]], reactive(input$metabolite))
-  tableServer("table_s7", table_list[["table_s7"]], reactive(input$metabolite))
-  tableServer("table_s9", table_list[["table_s9"]], reactive(input$metabolite))
-  tableServer("table_s11", table_list[["table_s11"]], reactive(input$metabolite))
-  tableServer("table_s13", table_list[["table_s13"]], reactive(input$metabolite))
+  tableServer("table_s5", table_list[["table_s5"]], reactive(input$metabolite), column_name = "BIOCHEMICAL")
+  tableServer("table_s7", table_list[["table_s7"]], reactive(input$metabolite), column_name = "BIOCHEMICAL")
+  tableServer("table_s9", table_list[["table_s9"]], reactive(input$metabolite), column_name = "BIOCHEMICAL")
+  tableServer("table_s11", table_list[["table_s11"]], reactive(input$metabolite), column_name = "BIOCHEMICAL")
+  tableServer("table_s13", table_list[["table_s13"]], reactive(input$metabolite), column_name = "BIOCHEMICAL")
 }
 
 ## Run the application --------------------------------------------------------
