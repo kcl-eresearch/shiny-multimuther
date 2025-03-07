@@ -43,6 +43,9 @@ default_columns <- c(
   "Individual-specific change over time"
 )
 
+unique_metabolites <- unique(table_list$table_s5$BIOCHEMICAL)
+
+
 ## Define UI ------------------------------------------------------------------
 
 ui <- navbarPage(
@@ -89,7 +92,39 @@ ui <- navbarPage(
         
       ))),
   
-  tabPanel(title = "Metabolites"),
+  tabPanel(title = "Metabolites",
+     sidebarLayout(
+       sidebarPanel(
+         # select metabolites
+         selectizeInput(
+           "metabolite",
+           "Filter by metabolite",
+           selected = NULL,
+           choices = NULL,
+           multiple = TRUE
+         ),
+         width = 2
+       ),
+       
+       # Show the data tables
+       mainPanel(
+         tableUI("table_s5"),
+         
+         HTML("<br><br>"),
+         tableUI("table_s7"),
+         
+         HTML("<br><br>"),
+         tableUI("table_s9"),
+         
+         HTML("<br><br>"),
+         tableUI("table_s11"),
+         
+         HTML("<br><br>"),
+         tableUI("table_s13"),
+         
+         HTML("<br><br>"),
+         
+       ))),
   )
 
 ## Define server logic --------------------------------------------------------
@@ -111,6 +146,20 @@ server <- function(input, output, session) {
   tableServer("table_s8", table_list[["table_s8"]], reactive(input$gene_name))
   tableServer("table_s10", table_list[["table_s10"]], reactive(input$gene_name))
   tableServer("table_s12", table_list[["table_s12"]], reactive(input$gene_name))
+  
+  updateSelectizeInput(
+    session,
+    "metabolite",
+    choices = unique_metabolites,
+    selected = NULL,
+    server = TRUE
+  )
+  
+  tableServer("table_s5", table_list[["table_s5"]], reactive(input$metabolite))
+  tableServer("table_s7", table_list[["table_s7"]], reactive(input$metabolite))
+  tableServer("table_s9", table_list[["table_s9"]], reactive(input$metabolite))
+  tableServer("table_s11", table_list[["table_s11"]], reactive(input$metabolite))
+  tableServer("table_s13", table_list[["table_s13"]], reactive(input$metabolite))
 }
 
 ## Run the application --------------------------------------------------------
