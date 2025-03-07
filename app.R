@@ -4,7 +4,7 @@ library(dplyr)
 source("tableModule.R")
 
 sheets <- paste0("S", c(2, 5, 6:9))
-sheets_with_extra_header_rows <- c(10, 11, 12, 13)
+sheets_with_extra_header_rows <- paste0("S", c(10, 11, 12, 13))
 
 table_list <- lapply(sheets, function(s){
   readxl::read_excel("../data/MM_SupplementaryTables.xlsx", sheet = s)
@@ -19,8 +19,8 @@ tables_with_extra_header_rows <- lapply(sheets_with_extra_header_rows, function(
 
 table_list <- c(table_list, tables_with_extra_header_rows)
 
-unique_genes <- sort(unique(table_s2$Gene))
-all_column_names <- names(table_s2)
+unique_genes <- sort(unique(table_list$table_s2$Gene))
+all_column_names <- names(table_list$table_s2)
 default_columns <- c("GencodeID", "Gene", "Beta", "SE", "Pvalue_Fixed", "FDR_Fixed (BH)", "FDR_RandomSlope (BH)",
                      "FDR_RandomSlopeOnly", "Population level Change over time",
                      "Individual-specific change over time")
@@ -48,7 +48,19 @@ ui <- fluidPage(
           tableUI("table_s2"),
           
           HTML("<br><br>"),
-          tableUI("table_s6")
+          tableUI("table_s6"),
+          
+          HTML("<br><br>"),
+          tableUI("table_s8"),
+          
+          HTML("<br><br>"),
+          tableUI("table_s10"),
+          
+          HTML("<br><br>"),
+          tableUI("table_s12"),
+          
+          HTML("<br><br>"),
+          
         ),
     )
 )
@@ -62,6 +74,9 @@ server <- function(input, output, session) {
   tableServer("table_s2", table_list[["table_s2"]], reactive(input$gene_name),
               reactive(input$show_cols))
   tableServer("table_s6", table_list[["table_s6"]], reactive(input$gene_name))
+  tableServer("table_s8", table_list[["table_s8"]], reactive(input$gene_name))
+  tableServer("table_s10", table_list[["table_s10"]], reactive(input$gene_name))
+  tableServer("table_s12", table_list[["table_s12"]], reactive(input$gene_name))
 }
 
 # Run the application 
