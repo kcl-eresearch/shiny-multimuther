@@ -45,50 +45,52 @@ default_columns <- c(
 
 ## Define UI ------------------------------------------------------------------
 
-ui <- fluidPage(# Application title
-  titlePanel("MultiMuTHER Study"),
+ui <- navbarPage(
+  title = "MultiMuTHER Study",
   
-  # Sidebar with input to select genes
-  sidebarLayout(
-    sidebarPanel(
-      # select genes
-      selectizeInput(
-        "gene_name",
-        "Filter by gene name",
-        selected = NULL,
-        choices = NULL,
-        multiple = TRUE
+  tabPanel(title = "Genes",
+    sidebarLayout(
+      sidebarPanel(
+        # select genes
+        selectizeInput(
+          "gene_name",
+          "Filter by gene name",
+          selected = NULL,
+          choices = NULL,
+          multiple = TRUE
+        ),
+        # select columns to show
+        checkboxGroupInput(
+          "show_cols",
+          "Columns to show (Table S2)",
+          all_column_names,
+          selected = default_columns
+        ),
+        width = 2
       ),
-      # select columns to show
-      checkboxGroupInput(
-        "show_cols",
-        "Columns to show (Table S2)",
-        all_column_names,
-        selected = default_columns
-      ),
-      width = 2
-    ),
-    
-    # Show the data tables
-    mainPanel(
-      tableUI("table_s2"),
       
-      HTML("<br><br>"),
-      tableUI("table_s6"),
-      
-      HTML("<br><br>"),
-      tableUI("table_s8"),
-      
-      HTML("<br><br>"),
-      tableUI("table_s10"),
-      
-      HTML("<br><br>"),
-      tableUI("table_s12"),
-      
-      HTML("<br><br>"),
-      
-    ),
-  ))
+      # Show the data tables
+      mainPanel(
+        tableUI("table_s2"),
+        
+        HTML("<br><br>"),
+        tableUI("table_s6"),
+        
+        HTML("<br><br>"),
+        tableUI("table_s8"),
+        
+        HTML("<br><br>"),
+        tableUI("table_s10"),
+        
+        HTML("<br><br>"),
+        tableUI("table_s12"),
+        
+        HTML("<br><br>"),
+        
+      ))),
+  
+  tabPanel(title = "Metabolites"),
+  )
 
 ## Define server logic --------------------------------------------------------
 
