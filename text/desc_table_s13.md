@@ -1,0 +1,4 @@
+**Table S13**: Summary statistics for metabolome-wide association analyses of serum
+metabolite levels against PFOS levels in the MultiMuTHER study. Association results
+are provided from linear mixed effects models including cross-sectional data from
+either the first or last clinical visits, with a 5% FDR threshold applied.
