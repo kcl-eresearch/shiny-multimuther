@@ -2,6 +2,7 @@ library(shiny)
 library(readxl)
 library(dplyr)
 library(shinyhelper)
+library(shinyWidgets)
 source("tableModule.R")
 
 ## Read data ------------------------------------------------------------------
@@ -67,86 +68,69 @@ ui <- navbarPage(
   title = "MultiMuTHER Study",
   
   tabPanel(title = "Genes",
-    sidebarLayout(
-      sidebarPanel(
-        # select genes
-        selectizeInput(
-          "gene_name",
-          "Filter by gene name",
-          selected = NULL,
-          choices = NULL,
-          multiple = TRUE
-        ),
-        # select columns to show
-        checkboxGroupInput(
-          "show_cols_genes",
-          "Columns to show (Table S2)",
-          all_column_names_genes,
-          selected = default_columns_genes
-        ) %>% helper(content = "genes_cols"),
-        width = 2
-      ),
       
       # Show the data tables
-      mainPanel(
-        tableUI("table_s2"),
+      tabsetPanel(
+        tabPanel("Longitudinal", 
+                 # select columns to show
+                 virtualSelectInput(
+                   inputId = "show_cols_genes",
+                   label = "Columns to show", 
+                   choices = all_column_names_genes,
+                   selected = default_columns_genes,
+                   multiple = TRUE,
+                   width = "90%",
+                   dropboxWrapper = "body"
+                 ) %>% helper(content = "genes_cols"),
+                 tableUI("table_s2"),
+                 ),
         
-        HTML("<br><br>"),
-        tableUI("table_s6"),
+        tabPanel("Time of visit", tableUI("table_s6")),
         
-        HTML("<br><br>"),
-        tableUI("table_s8"),
+        tabPanel("Seasonality", tableUI("table_s8")),
         
-        HTML("<br><br>"),
-        tableUI("table_s10"),
+        tabPanel("Serum PFOA", tableUI("table_s10")),
         
-        HTML("<br><br>"),
-        tableUI("table_s12"),
-        
-        HTML("<br><br>"),
-        
-      ))),
+        tabPanel("Serum PFOS", tableUI("table_s12")),
+      
+      )),
   
   tabPanel(title = "Metabolites",
-     sidebarLayout(
-       sidebarPanel(
-         # select metabolites
-         selectizeInput(
-           "metabolite",
-           "Filter by metabolite",
-           selected = NULL,
-           choices = NULL,
-           multiple = TRUE
-         ),
-         # select columns to show
-         checkboxGroupInput(
-           "show_cols_metabolites",
-           "Columns to show (Table S5)",
-           all_column_names_metabolites,
-           selected = default_columns_metabolites
-         ) %>% helper(content = "metabolites_cols"),
-         width = 2
-       ),
+     # sidebarLayout(
+     #   sidebarPanel(
+     #     # select metabolites
+     #     selectizeInput(
+     #       "metabolite",
+     #       "Filter by metabolite",
+     #       selected = NULL,
+     #       choices = NULL,
+     #       multiple = TRUE
+     #     ),
+
        
        # Show the data tables
-       mainPanel(
-         tableUI("table_s5"),
+       tabsetPanel(
+         tabPanel("Longitudinal", 
+                      virtualSelectInput(
+                        inputId = "show_cols_metabolites",
+                        label = "Columns to show",
+                        choices = all_column_names_metabolites,
+                        selected = default_columns_metabolites,
+                        multiple = TRUE,
+                        width = "90%",
+                        dropboxWrapper = "body"
+                      ) %>% helper(content = "metabolites_cols"),
+                  tableUI("table_s5")),
          
-         HTML("<br><br>"),
-         tableUI("table_s7"),
+         tabPanel("Time of visit", tableUI("table_s7")),
          
-         HTML("<br><br>"),
-         tableUI("table_s9"),
+         tabPanel("Seasonality", tableUI("table_s9")),
          
-         HTML("<br><br>"),
-         tableUI("table_s11"),
+         tabPanel("Serum PFOA", tableUI("table_s11")),
          
-         HTML("<br><br>"),
-         tableUI("table_s13"),
+         tabPanel("Serum PFOS", tableUI("table_s13")),
          
-         HTML("<br><br>"),
-         
-       ))),
+       )),
   )
 
 ## Define server logic --------------------------------------------------------
