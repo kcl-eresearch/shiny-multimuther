@@ -24,15 +24,30 @@ filter_by_column <- function(data, cols){
 }
 
 
-tableUI <- function(id){
+tableUI <- function(id, all_cols, default_cols = NULL){
   table_info_filename <- paste0("text/desc_", id, ".md")
   
+  if (is.null(default_cols)){
+    default_cols <- all_cols
+  }
+  
+  col_select <- virtualSelectInput(
+      inputId = NS(id, "cols"),
+      label = "Columns to show",
+      choices = all_cols,
+      selected = default_cols,
+      multiple = TRUE,
+      width = "100%",
+      dropboxWrapper = "body"
+    ) %>% helper(content = id)
+  
   tagList(includeMarkdown(table_info_filename),
+          col_select,
           DT::DTOutput(NS(id, "table"))
           )
 }
 
-tableServer <- function(id, data, row_id = reactive(NULL), id_column_name, cols = reactive(NULL)){
+tableServer <- function(id, data, row_id = reactive(NULL), id_column_name = NULL){
   stopifnot(is.reactive(row_id))
   stopifnot(!is.reactive(data))
   stopifnot(!is.reactive(id_column_name))
@@ -40,7 +55,7 @@ tableServer <- function(id, data, row_id = reactive(NULL), id_column_name, cols 
   moduleServer(id, function(input, output, session){
     filtered_data <- reactive({
       filter_by_row(data, id_column_name, row_id()) %>% 
-        filter_by_column(cols())
+        filter_by_column(input$cols)
       })
     
     output$table <- DT::renderDT(filtered_data())

@@ -67,71 +67,69 @@ default_columns_metabolites <- c(
 ui <- navbarPage(
   title = "MultiMuTHER Study",
   
-  tabPanel(title = "Genes",
+  tabPanel(
+    title = "Genes",
+    
+    # Show the data tables
+    tabsetPanel(
+      tabPanel(
+        "Longitudinal",
+        tableUI("table_s2", all_column_names_genes, default_columns_genes)
+      ),
       
-      # Show the data tables
-      tabsetPanel(
-        tabPanel("Longitudinal", 
-                 # select columns to show
-                 virtualSelectInput(
-                   inputId = "show_cols_genes",
-                   label = "Columns to show", 
-                   choices = all_column_names_genes,
-                   selected = default_columns_genes,
-                   multiple = TRUE,
-                   width = "90%",
-                   dropboxWrapper = "body"
-                 ) %>% helper(content = "genes_cols"),
-                 tableUI("table_s2"),
-                 ),
-        
-        tabPanel("Time of visit", tableUI("table_s6")),
-        
-        tabPanel("Seasonality", tableUI("table_s8")),
-        
-        tabPanel("Serum PFOA", tableUI("table_s10")),
-        
-        tabPanel("Serum PFOS", tableUI("table_s12")),
-      
+      tabPanel("Time of visit", tableUI(
+        "table_s6", all_cols = names(table_list$table_s6)
       )),
+      
+      tabPanel("Seasonality", tableUI(
+        "table_s8", all_cols = names(table_list$table_s8)
+      )),
+      
+      tabPanel("Serum PFOA", tableUI(
+        "table_s10", all_cols = names(table_list$table_s10)
+      )),
+      
+      tabPanel("Serum PFOS", tableUI(
+        "table_s12", all_cols = names(table_list$table_s12)
+      )),
+      
+    )
+  ),
   
-  tabPanel(title = "Metabolites",
-     # sidebarLayout(
-     #   sidebarPanel(
-     #     # select metabolites
-     #     selectizeInput(
-     #       "metabolite",
-     #       "Filter by metabolite",
-     #       selected = NULL,
-     #       choices = NULL,
-     #       multiple = TRUE
-     #     ),
-
-       
-       # Show the data tables
-       tabsetPanel(
-         tabPanel("Longitudinal", 
-                      virtualSelectInput(
-                        inputId = "show_cols_metabolites",
-                        label = "Columns to show",
-                        choices = all_column_names_metabolites,
-                        selected = default_columns_metabolites,
-                        multiple = TRUE,
-                        width = "90%",
-                        dropboxWrapper = "body"
-                      ) %>% helper(content = "metabolites_cols"),
-                  tableUI("table_s5")),
-         
-         tabPanel("Time of visit", tableUI("table_s7")),
-         
-         tabPanel("Seasonality", tableUI("table_s9")),
-         
-         tabPanel("Serum PFOA", tableUI("table_s11")),
-         
-         tabPanel("Serum PFOS", tableUI("table_s13")),
-         
-       )),
-  )
+  tabPanel(
+    title = "Metabolites",
+    
+    # Show the data tables
+    tabsetPanel(
+      tabPanel(
+        "Longitudinal",
+        tableUI(
+          "table_s5",
+          all_column_names_metabolites,
+          default_columns_metabolites
+        )
+      ),
+      
+      tabPanel("Time of visit", tableUI(
+        "table_s7", all_cols = names(table_list$table_s7)
+      )),
+      
+      tabPanel("Seasonality", tableUI(
+        "table_s9", all_cols = names(table_list$table_s9)
+      )),
+      
+      tabPanel("Serum PFOA", tableUI(
+        "table_s11", all_cols = names(table_list$table_s11)
+      )),
+      
+      tabPanel("Serum PFOS", tableUI(
+        "table_s13", all_cols = names(table_list$table_s13)
+      )),
+      
+    )
+  ),
+  
+)
 
 ## Define server logic --------------------------------------------------------
 
@@ -147,14 +145,11 @@ server <- function(input, output, session) {
   )
   
   tableServer("table_s2",
-              table_list[["table_s2"]],
-              reactive(input$gene_name),
-              id_column_name = "Gene",
-              reactive(input$show_cols_genes))
-  tableServer("table_s6", table_list[["table_s6"]], reactive(input$gene_name), id_column_name = "Gene")
-  tableServer("table_s8", table_list[["table_s8"]], reactive(input$gene_name), id_column_name = "Gene")
-  tableServer("table_s10", table_list[["table_s10"]], reactive(input$gene_name), id_column_name = "Gene")
-  tableServer("table_s12", table_list[["table_s12"]], reactive(input$gene_name), id_column_name = "Gene")
+              table_list[["table_s2"]])
+  tableServer("table_s6", table_list[["table_s6"]])
+  tableServer("table_s8", table_list[["table_s8"]])
+  tableServer("table_s10", table_list[["table_s10"]])
+  tableServer("table_s12", table_list[["table_s12"]])
   
   updateSelectizeInput(
     session,
@@ -167,12 +162,11 @@ server <- function(input, output, session) {
   tableServer("table_s5", 
               table_list[["table_s5"]], 
               reactive(input$metabolite), 
-              id_column_name = "BIOCHEMICAL",
-              reactive(input$show_cols_metabolites))
-  tableServer("table_s7", table_list[["table_s7"]], reactive(input$metabolite), id_column_name = "BIOCHEMICAL")
-  tableServer("table_s9", table_list[["table_s9"]], reactive(input$metabolite), id_column_name = "BIOCHEMICAL")
-  tableServer("table_s11", table_list[["table_s11"]], reactive(input$metabolite), id_column_name = "BIOCHEMICAL")
-  tableServer("table_s13", table_list[["table_s13"]], reactive(input$metabolite), id_column_name = "BIOCHEMICAL")
+              id_column_name = "BIOCHEMICAL")
+  tableServer("table_s7", table_list[["table_s7"]])
+  tableServer("table_s9", table_list[["table_s9"]])
+  tableServer("table_s11", table_list[["table_s11"]])
+  tableServer("table_s13", table_list[["table_s13"]])
 }
 
 ## Run the application --------------------------------------------------------
