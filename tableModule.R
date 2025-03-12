@@ -65,8 +65,14 @@ tableServer <- function(id, data, row_id = reactive(NULL), id_column_name = NULL
     
     output$table <- DT::renderDT({
       cols_to_format <- get_cols_to_format(filtered_data(), pattern = "SE|Beta|FDR|Pvalue|P-value")
-      DT::datatable(filtered_data()) %>% 
-        formatSignif(cols_to_format, digits = 3)
+
+      dt <- DT::datatable(filtered_data()) %>% 
+        formatSignif(cols_to_format, digits = 3) 
+      
+      if ("Gene" %in% names(filtered_data())){
+        dt <- formatStyle(dt, "Gene", fontStyle = "italic")
+      }
+      dt
       })
 })
 }
