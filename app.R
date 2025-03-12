@@ -8,7 +8,7 @@ source("tableModule.R")
 
 ## Read data ------------------------------------------------------------------
 
-sheets <- paste0("S", c(2, 5, 6:9))
+sheets <- paste0("S", c(2, 5, 6:9, 14))
 sheets_with_extra_header_rows <- paste0("S", c(10, 11, 12, 13))
 
 table_list <- lapply(sheets, function(s) {
@@ -129,6 +129,12 @@ ui <- navbarPage(
       
     )
   ),
+  tabPanel(
+    title = "Genes x Metabolites",
+    tableUI(
+      "table_s14", all_cols = names(table_list$table_s14)
+    )
+  )
   
 )
 
@@ -168,6 +174,8 @@ server <- function(input, output, session) {
   tableServer("table_s9", table_list[["table_s9"]])
   tableServer("table_s11", table_list[["table_s11"]])
   tableServer("table_s13", table_list[["table_s13"]])
+  
+  tableServer("table_s14", table_list[["table_s14"]])
 }
 
 ## Run the application --------------------------------------------------------
