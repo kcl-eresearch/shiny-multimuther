@@ -17,6 +17,8 @@ filter_by_column <- function(data, cols){
   if (is.null(cols)) {
     df <- data
   } else {
+    cols <- names(data)[names(data) %in% cols]
+    
     df <- data %>%
       dplyr::select(any_of(cols))
   }
