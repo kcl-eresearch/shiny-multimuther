@@ -17,12 +17,17 @@ filter_by_column <- function(data, cols){
   if (is.null(cols)) {
     df <- data
   } else {
-    df <- data %>% 
+    df <- data %>%
       dplyr::select(any_of(cols))
   }
   return(df)
 }
 
+
+get_cols_to_format <- function(data, pattern){
+  columns <- names(data)
+  columns[stringr::str_detect(columns, pattern = pattern)]
+}
 
 tableUI <- function(id, all_cols, default_cols = NULL){
   table_info_filename <- paste0("text/desc_", id, ".md")
@@ -58,6 +63,10 @@ tableServer <- function(id, data, row_id = reactive(NULL), id_column_name = NULL
         filter_by_column(input$cols)
       })
     
-    output$table <- DT::renderDT(filtered_data())
+    output$table <- DT::renderDT({
+      cols_to_format <- get_cols_to_format(filtered_data(), pattern = "SE|Beta|FDR|Pvalue|P-value")
+      DT::datatable(filtered_data()) %>% 
+        formatSignif(cols_to_format, digits = 3)
+      })
 })
 }

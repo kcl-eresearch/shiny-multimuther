@@ -1,6 +1,7 @@
 library(shiny)
 library(readxl)
 library(dplyr)
+library(DT)
 library(shinyhelper)
 library(shinyWidgets)
 source("tableModule.R")
