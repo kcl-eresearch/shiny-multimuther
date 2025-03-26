@@ -1,1 +1,0 @@
-Help text describing columns in Table S5
