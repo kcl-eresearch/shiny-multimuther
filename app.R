@@ -67,6 +67,8 @@ default_columns_metabolites <- c(
 
 ui <- navbarPage(
   title = "MultiMuTHER Study",
+  theme = bslib::bs_theme(version = 4),
+  includeCSS("www/kcl_theme_slim.css"),
   
   tabPanel(
     title = "Genes",
