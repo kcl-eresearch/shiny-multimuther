@@ -67,13 +67,22 @@ tableServer <- function(id, data, row_id = reactive(NULL), id_column_name = NULL
     
     output$table <- DT::renderDT({
       cols_to_format <- get_cols_to_format(filtered_data(), pattern = "SE|Beta|FDR|Pvalue|P-value")
+      signif_digit_js <- JS(
+        "function(row, data) {",
+        "for (i = 1; i < data.length; i++) {",
+        "if (data[i]<0.001 && data[i] > 0){",
+        "$('td:eq('+i+')', row).html(data[i].toExponential(2));",
+        "}",
+        "}",
+        "}")
 
       dt <- DT::datatable(filtered_data(), 
                           filter = "top",
                           extensions = "Buttons",
-                          options = list(dom = 'frtipB', buttons = c('csv', 'excel'))) %>% 
-        formatSignif(cols_to_format, digits = 3) 
-      
+                          options = list(dom = 'frtipB', buttons = c('csv', 'excel'),
+                                         rowCallback = signif_digit_js)) %>%
+        formatSignif(cols_to_format, digits = 3)
+
       if ("Gene" %in% names(filtered_data())){
         dt <- formatStyle(dt, "Gene", fontStyle = "italic")
       }
