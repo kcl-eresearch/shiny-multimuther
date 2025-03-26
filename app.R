@@ -66,42 +66,56 @@ default_columns_metabolites <- c(
 ## Define UI ------------------------------------------------------------------
 
 ui <- navbarPage(
-  title = "MultiMuTHER Study",
+  title = div(
+    img(
+      src = "MultiMuTHERLogo.png",
+      width = 150
+     ),
+    ""
+    ),
+  windowTitle = "MultiMuTHER",
   theme = bslib::bs_theme(version = 4),
   includeCSS("www/kcl_theme_slim.css"),
   
   tabPanel(
+    title = "About",
+    img(src="MultiMuTHERLogo.png", width="200", alt = "MultiMuTHER logo"),
+    includeMarkdown("text/about.md")
+           ),
+  
+  
+  tabPanel(
     title = "Genes",
-    
+
     # Show the data tables
     tabsetPanel(
       tabPanel(
         "Longitudinal",
         tableUI("table_s2", all_column_names_genes, default_columns_genes)
       ),
-      
+
       tabPanel("Time of visit", tableUI(
         "table_s6", all_cols = names(table_list$table_s6)
       )),
-      
+
       tabPanel("Seasonality", tableUI(
         "table_s8", all_cols = names(table_list$table_s8)
       )),
-      
+
       tabPanel("Serum PFOA", tableUI(
         "table_s10", all_cols = names(table_list$table_s10)
       )),
-      
+
       tabPanel("Serum PFOS", tableUI(
         "table_s12", all_cols = names(table_list$table_s12)
       )),
-      
+
     )
   ),
   
   tabPanel(
     title = "Metabolites",
-    
+
     # Show the data tables
     tabsetPanel(
       tabPanel(
@@ -112,23 +126,23 @@ ui <- navbarPage(
           default_columns_metabolites
         )
       ),
-      
+
       tabPanel("Time of visit", tableUI(
         "table_s7", all_cols = names(table_list$table_s7)
       )),
-      
+
       tabPanel("Seasonality", tableUI(
         "table_s9", all_cols = names(table_list$table_s9)
       )),
-      
+
       tabPanel("Serum PFOA", tableUI(
         "table_s11", all_cols = names(table_list$table_s11)
       )),
-      
+
       tabPanel("Serum PFOS", tableUI(
         "table_s13", all_cols = names(table_list$table_s13)
       )),
-      
+
     )
   ),
   tabPanel(
