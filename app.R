@@ -145,7 +145,7 @@ ui <- navbarPage(
 ## Define server logic --------------------------------------------------------
 
 server <- function(input, output, session) {
-  observe_helpers()
+  shinyhelper::observe_helpers()
   
   updateSelectizeInput(
     session,
