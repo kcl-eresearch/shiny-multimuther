@@ -1,9 +1,6 @@
 library(shiny)
 library(readxl)
 library(dplyr)
-library(DT)
-library(shinyhelper)
-library(shinyWidgets)
 library(BioTableModule)
 
 ## Read data ------------------------------------------------------------------
@@ -173,9 +170,7 @@ server <- function(input, output, session) {
   )
   
   tableServer("table_s5",
-              table_list[["table_s5"]],
-              reactive(input$metabolite),
-              id_column_name = "BIOCHEMICAL")
+              table_list[["table_s5"]])
   tableServer("table_s7", table_list[["table_s7"]])
   tableServer("table_s9", table_list[["table_s9"]])
   tableServer("table_s11", table_list[["table_s11"]])
