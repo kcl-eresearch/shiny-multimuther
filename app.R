@@ -4,7 +4,7 @@ library(dplyr)
 library(DT)
 library(shinyhelper)
 library(shinyWidgets)
-source("tableModule.R")
+library(BioTableModule)
 
 ## Read data ------------------------------------------------------------------
 
