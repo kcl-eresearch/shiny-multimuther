@@ -80,26 +80,15 @@ ui <- navbarPage(
     
     # Show the data tables
     tabsetPanel(
-      tabPanel(
-        "Longitudinal",
-        tableUI("table_s2")
-      ),
+      tabPanel("Longitudinal", tableUI("table_s2")),
       
-      tabPanel("Time of visit", tableUI(
-        "table_s6"
-      )),
+      tabPanel("Time of visit", tableUI("table_s6")),
       
-      tabPanel("Seasonality", tableUI(
-        "table_s8"
-      )),
+      tabPanel("Seasonality", tableUI("table_s8")),
       
-      tabPanel("Serum PFOA", tableUI(
-        "table_s10"
-      )),
+      tabPanel("Serum PFOA", tableUI("table_s10")),
       
-      tabPanel("Serum PFOS", tableUI(
-        "table_s12"
-      )),
+      tabPanel("Serum PFOS", tableUI("table_s12")),
       
     )
   ),
@@ -109,34 +98,19 @@ ui <- navbarPage(
     
     # Show the data tables
     tabsetPanel(
-      tabPanel(
-        "Longitudinal",
-        tableUI(
-          "table_s5"
-        )
-      ),
+      tabPanel("Longitudinal", tableUI("table_s5")),
       
-      tabPanel("Time of visit", tableUI(
-        "table_s7"
-      )),
+      tabPanel("Time of visit", tableUI("table_s7")),
       
-      tabPanel("Seasonality", tableUI(
-        "table_s9"
-      )),
+      tabPanel("Seasonality", tableUI("table_s9")),
       
-      tabPanel("Serum PFOA", tableUI(
-        "table_s11"
-      )),
+      tabPanel("Serum PFOA", tableUI("table_s11")),
       
-      tabPanel("Serum PFOS", tableUI(
-        "table_s13"
-      )),
+      tabPanel("Serum PFOS", tableUI("table_s13")),
       
     )
   ),
-  tabPanel(title = "Genes x Metabolites", tableUI(
-    "table_s14"
-  ))
+  tabPanel(title = "Genes x Metabolites", tableUI("table_s14"))
   
 )
 
@@ -167,8 +141,7 @@ server <- function(input, output, session) {
     server = TRUE
   )
   
-  tableServer("table_s5",
-              table_list[["table_s5"]])
+  tableServer("table_s5", table_list[["table_s5"]])
   tableServer("table_s7", table_list[["table_s7"]])
   tableServer("table_s9", table_list[["table_s9"]])
   tableServer("table_s11", table_list[["table_s11"]])
