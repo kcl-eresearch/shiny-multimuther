@@ -82,23 +82,23 @@ ui <- navbarPage(
     tabsetPanel(
       tabPanel(
         "Longitudinal",
-        tableUI("table_s2", all_column_names_genes, default_columns_genes)
+        tableUI("table_s2")
       ),
       
       tabPanel("Time of visit", tableUI(
-        "table_s6", all_cols = names(table_list$table_s6)
+        "table_s6"
       )),
       
       tabPanel("Seasonality", tableUI(
-        "table_s8", all_cols = names(table_list$table_s8)
+        "table_s8"
       )),
       
       tabPanel("Serum PFOA", tableUI(
-        "table_s10", all_cols = names(table_list$table_s10)
+        "table_s10"
       )),
       
       tabPanel("Serum PFOS", tableUI(
-        "table_s12", all_cols = names(table_list$table_s12)
+        "table_s12"
       )),
       
     )
@@ -112,32 +112,30 @@ ui <- navbarPage(
       tabPanel(
         "Longitudinal",
         tableUI(
-          "table_s5",
-          all_column_names_metabolites,
-          default_columns_metabolites
+          "table_s5"
         )
       ),
       
       tabPanel("Time of visit", tableUI(
-        "table_s7", all_cols = names(table_list$table_s7)
+        "table_s7"
       )),
       
       tabPanel("Seasonality", tableUI(
-        "table_s9", all_cols = names(table_list$table_s9)
+        "table_s9"
       )),
       
       tabPanel("Serum PFOA", tableUI(
-        "table_s11", all_cols = names(table_list$table_s11)
+        "table_s11"
       )),
       
       tabPanel("Serum PFOS", tableUI(
-        "table_s13", all_cols = names(table_list$table_s13)
+        "table_s13"
       )),
       
     )
   ),
   tabPanel(title = "Genes x Metabolites", tableUI(
-    "table_s14", all_cols = names(table_list$table_s14)
+    "table_s14"
   ))
   
 )
