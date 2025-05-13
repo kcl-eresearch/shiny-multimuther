@@ -11,14 +11,14 @@
   "Packages": {
     "BioTableModule": {
       "Package": "BioTableModule",
-      "Version": "0.1.0",
+      "Version": "0.1.1",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "liz-is",
       "RemoteRepo": "BioTableModule",
-      "RemoteRef": "main",
-      "RemoteSha": "388f5e7e87f82e3cb70a75d93b8b4aa5a2f02d12",
+      "RemoteRef": "91861751c4dc5645f9ed2021bbe8958c1971036c",
+      "RemoteSha": "91861751c4dc5645f9ed2021bbe8958c1971036c",
       "Requirements": [
         "DT",
         "dplyr",
@@ -27,7 +27,7 @@
         "shinyhelper",
         "stringr"
       ],
-      "Hash": "0a26cfb8d758e28adc473c124898f010"
+      "Hash": "a63032e1b5a5230681961613655190b0"
     },
     "DT": {
       "Package": "DT",
