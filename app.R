@@ -169,7 +169,7 @@ server <- function(input, output, session) {
   tableServer("table_s17", table_list[["table_s17"]])
   tableServer("table_s18", table_list[["table_s18"]])
   
-  tableServer("table_s14", table_list[["table_s14"]])
+  tableServer("table_s19", table_list[["table_s19"]])
 }
 
 ## Run the application --------------------------------------------------------
