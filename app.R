@@ -118,7 +118,7 @@ ui <- navbarPage(
       
       tabPanel("Serum PFOA", tableUI("table_s15")),
       
-      tabPanel("Serum PFOS", tableUI("table_s16")),
+      tabPanel("Serum PFOS", tableUI("table_s17")),
       
       
       
@@ -139,7 +139,7 @@ ui <- navbarPage(
       
       tabPanel("Seasonality", tableUI("table_s14")),
       
-      tabPanel("Serum PFOA", tableUI("table_s17")),
+      tabPanel("Serum PFOA", tableUI("table_s16")),
       
       tabPanel("Serum PFOS", tableUI("table_s18")),
       
@@ -169,7 +169,7 @@ server <- function(input, output, session) {
   tableServer("table_s11", table_list[["table_s11"]], gene_name_cols = "Gene")
   tableServer("table_s13", table_list[["table_s13"]], gene_name_cols = "Gene")
   tableServer("table_s15", table_list[["table_s15"]], gene_name_cols = "Gene")
-  tableServer("table_s16", table_list[["table_s16"]], gene_name_cols = "Gene")
+  tableServer("table_s17", table_list[["table_s17"]], gene_name_cols = "Gene")
   
   updateSelectizeInput(
     session,
@@ -183,7 +183,7 @@ server <- function(input, output, session) {
   tableServer("table_s10", table_list[["table_s10"]])
   tableServer("table_s12", table_list[["table_s12"]])
   tableServer("table_s14", table_list[["table_s14"]])
-  tableServer("table_s17", table_list[["table_s17"]])
+  tableServer("table_s16", table_list[["table_s16"]])
   tableServer("table_s18", table_list[["table_s18"]])
   
   tableServer("table_s19", table_list[["table_s19"]])
