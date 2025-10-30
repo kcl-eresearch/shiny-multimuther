@@ -73,13 +73,15 @@ default_columns_metabolites <- c(
 ui <- navbarPage(
   title = div(img(src = "MultiMuTHERLogo.png", width = 150), ""),
   windowTitle = "MultiMuTHER",
-  theme = bslib::bs_theme(version = 4),
-  includeCSS("www/kcl_theme_slim.css"),
+  theme = bslib::bs_theme(version = 5, preset = "flatly", font_scale = 1.25),
   
   tabPanel(
     title = "About",
-    img(src = "MultiMuTHERLogo.png", width = "200", alt = "MultiMuTHER logo"),
-    includeMarkdown("text/about.md")
+    bslib::layout_columns(
+     img(src = "MultiMuTHERLogo.png", width = "200", alt = "MultiMuTHER logo"),
+      includeMarkdown("text/about.md"),
+      col_widths = c(-2, 8, -2)
+    )
   ),
   
   
