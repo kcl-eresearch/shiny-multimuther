@@ -90,6 +90,10 @@ ui <- navbarPage(
     tabsetPanel(
       tabPanel("Longitudinal", tableUI("table_s2")),
       
+      tabPanel("Cell-type specific longitudinal GEAS", tableUI("table_s8")),
+      
+      tabPanel("Longitudinal GxT cis-eQTL interaction", tableUI("table_s9")),
+      
       tabPanel("Time of visit", tableUI("table_s11")),
       
       tabPanel("Seasonality", tableUI("table_s13")),
@@ -97,6 +101,9 @@ ui <- navbarPage(
       tabPanel("Serum PFOA", tableUI("table_s15")),
       
       tabPanel("Serum PFOS", tableUI("table_s16")),
+      
+      
+      
       
     )
   ),
@@ -107,6 +114,8 @@ ui <- navbarPage(
     # Show the data tables
     tabsetPanel(
       tabPanel("Longitudinal", tableUI("table_s5")),
+      
+      tabPanel("Longitudinal GxT metQTL interaction", tableUI("table_s10")),
       
       tabPanel("Time of visit", tableUI("table_s12")),
       
@@ -136,6 +145,8 @@ server <- function(input, output, session) {
   )
   
   tableServer("table_s2", table_list[["table_s2"]])
+  tableServer("table_s8", table_list[["table_s8"]])
+  tableServer("table_s9", table_list[["table_s9"]])
   tableServer("table_s11", table_list[["table_s11"]])
   tableServer("table_s13", table_list[["table_s13"]])
   tableServer("table_s15", table_list[["table_s15"]])
@@ -150,6 +161,7 @@ server <- function(input, output, session) {
   )
   
   tableServer("table_s5", table_list[["table_s5"]])
+  tableServer("table_s10", table_list[["table_s10"]])
   tableServer("table_s12", table_list[["table_s12"]])
   tableServer("table_s14", table_list[["table_s14"]])
   tableServer("table_s17", table_list[["table_s17"]])
