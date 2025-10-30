@@ -5,20 +5,28 @@ library(BioTableModule)
 
 ## Read data ------------------------------------------------------------------
 
-sheets <- paste0("S", c(2, 5, 6:9, 14))
-sheets_with_extra_header_rows <- paste0("S", c(10, 11, 12, 13))
+sheets <- paste0("S", c(2, 5, 8:14, 19))
+sheets_with_extra_header_rows <- paste0("S", c(15:18))
 
 table_list <- lapply(sheets, function(s) {
-  readxl::read_excel("../data/MM_SupplementaryTables.xlsx", sheet = s)
+  tab <- readxl::read_excel("../data/MM_SupplementaryTables_20251027.xlsx", sheet = s)
+  names(tab) <- names(tab) %>% 
+    gsub("_", " ", .) %>%
+    gsub("Pvalue", "P-value", .)
+  return(tab)
+    
 }) %>% setNames(tolower(paste0("table_", sheets)))
 
 tables_with_extra_header_rows <- lapply(sheets_with_extra_header_rows, function(s) {
   tab <- readxl::read_excel(
-    "../data/MM_SupplementaryTables.xlsx",
+    "../data/MM_SupplementaryTables_20251027.xlsx",
     sheet = s,
     skip = 1,
     .name_repair = "minimal"
   )
+  names(tab) <- names(tab) %>% 
+    gsub("_", " ", .) %>%
+    gsub("Pvalue", "P-value", .)
   names(tab)[6:9] <- paste(names(tab)[6:9], "(first visit)")
   names(tab)[10:13] <- paste(names(tab)[10:13], "(last visit)")
   return(tab)
@@ -35,10 +43,10 @@ default_columns_genes <- c(
   "Gene",
   "Beta",
   "SE",
-  "Pvalue_Fixed",
-  "FDR_Fixed (BH)",
-  "FDR_RandomSlope (BH)",
-  "FDR_RandomSlopeOnly",
+  "P-value Fixed",
+  "BH-Adjusted P-value (Fixed)",
+  "BH-Adjusted P-value (Random Slope)",
+  "BH-Adjusted P-value (Random Slope Only)",
   "Population level Change over time",
   "Individual-specific change over time"
 )
@@ -52,10 +60,10 @@ default_columns_metabolites <- c(
   "SUB.PATHWAY",
   "Beta",
   "SE",
-  "Pvalue_Fixed",
-  "FDR_Fixed (BH)",
-  "FDR_RandomSlope (BH)",
-  "FDR_RandomSlopeOnly",
+  "P-value Fixed",
+  "BH-Adjusted P-value (Fixed)",
+  "BH-Adjusted P-value (Random Slope)",
+  "BH-Adjusted P-value (Random Slope Only)",
   "Population level Change over time",
   "Individual-specific change over time"
 )
@@ -82,13 +90,13 @@ ui <- navbarPage(
     tabsetPanel(
       tabPanel("Longitudinal", tableUI("table_s2")),
       
-      tabPanel("Time of visit", tableUI("table_s6")),
+      tabPanel("Time of visit", tableUI("table_s11")),
       
-      tabPanel("Seasonality", tableUI("table_s8")),
+      tabPanel("Seasonality", tableUI("table_s13")),
       
-      tabPanel("Serum PFOA", tableUI("table_s10")),
+      tabPanel("Serum PFOA", tableUI("table_s15")),
       
-      tabPanel("Serum PFOS", tableUI("table_s12")),
+      tabPanel("Serum PFOS", tableUI("table_s16")),
       
     )
   ),
@@ -100,17 +108,17 @@ ui <- navbarPage(
     tabsetPanel(
       tabPanel("Longitudinal", tableUI("table_s5")),
       
-      tabPanel("Time of visit", tableUI("table_s7")),
+      tabPanel("Time of visit", tableUI("table_s12")),
       
-      tabPanel("Seasonality", tableUI("table_s9")),
+      tabPanel("Seasonality", tableUI("table_s14")),
       
-      tabPanel("Serum PFOA", tableUI("table_s11")),
+      tabPanel("Serum PFOA", tableUI("table_s17")),
       
-      tabPanel("Serum PFOS", tableUI("table_s13")),
+      tabPanel("Serum PFOS", tableUI("table_s18")),
       
     )
   ),
-  tabPanel(title = "Genes x Metabolites", tableUI("table_s14"))
+  tabPanel(title = "Genes x Metabolites", tableUI("table_s19"))
   
 )
 
@@ -128,10 +136,10 @@ server <- function(input, output, session) {
   )
   
   tableServer("table_s2", table_list[["table_s2"]])
-  tableServer("table_s6", table_list[["table_s6"]])
-  tableServer("table_s8", table_list[["table_s8"]])
-  tableServer("table_s10", table_list[["table_s10"]])
-  tableServer("table_s12", table_list[["table_s12"]])
+  tableServer("table_s11", table_list[["table_s11"]])
+  tableServer("table_s13", table_list[["table_s13"]])
+  tableServer("table_s15", table_list[["table_s15"]])
+  tableServer("table_s16", table_list[["table_s16"]])
   
   updateSelectizeInput(
     session,
@@ -142,10 +150,10 @@ server <- function(input, output, session) {
   )
   
   tableServer("table_s5", table_list[["table_s5"]])
-  tableServer("table_s7", table_list[["table_s7"]])
-  tableServer("table_s9", table_list[["table_s9"]])
-  tableServer("table_s11", table_list[["table_s11"]])
-  tableServer("table_s13", table_list[["table_s13"]])
+  tableServer("table_s12", table_list[["table_s12"]])
+  tableServer("table_s14", table_list[["table_s14"]])
+  tableServer("table_s17", table_list[["table_s17"]])
+  tableServer("table_s18", table_list[["table_s18"]])
   
   tableServer("table_s14", table_list[["table_s14"]])
 }
