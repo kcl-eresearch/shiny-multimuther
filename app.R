@@ -68,6 +68,22 @@ default_columns_metabolites <- c(
   "Individual-specific change over time"
 )
 
+
+all_possible_columns <- lapply(table_list, colnames) |> 
+  unname() |> unlist() |> 
+  unique()
+columns_to_format <- all_possible_columns[stringr::str_detect(all_possible_columns, pattern = "Beta|SE|P-value|qvalue")]
+
+## Define custom functions ----------------------------------------------------
+
+tableServer <- function(id, data, default_cols = NULL, gene_name_cols = NULL){
+  BioTableModule::tableServer(id, data,
+                              default_cols = default_cols,
+                              gene_name_cols = gene_name_cols,
+                              sci_format_cols = columns_to_format, 
+                              sci_format_digits = 4)
+}
+
 ## Define UI ------------------------------------------------------------------
 
 ui <- navbarPage(
@@ -146,13 +162,14 @@ server <- function(input, output, session) {
     server = TRUE
   )
   
-  tableServer("table_s2", table_list[["table_s2"]])
-  tableServer("table_s8", table_list[["table_s8"]])
-  tableServer("table_s9", table_list[["table_s9"]])
-  tableServer("table_s11", table_list[["table_s11"]])
-  tableServer("table_s13", table_list[["table_s13"]])
-  tableServer("table_s15", table_list[["table_s15"]])
-  tableServer("table_s16", table_list[["table_s16"]])
+  tableServer("table_s2", table_list[["table_s2"]], 
+              default_cols = default_columns_genes, gene_name_cols = "Gene")
+  tableServer("table_s8", table_list[["table_s8"]], gene_name_cols = "Gene")
+  tableServer("table_s9", table_list[["table_s9"]], gene_name_cols = "Gene")
+  tableServer("table_s11", table_list[["table_s11"]], gene_name_cols = "Gene")
+  tableServer("table_s13", table_list[["table_s13"]], gene_name_cols = "Gene")
+  tableServer("table_s15", table_list[["table_s15"]], gene_name_cols = "Gene")
+  tableServer("table_s16", table_list[["table_s16"]], gene_name_cols = "Gene")
   
   updateSelectizeInput(
     session,
@@ -162,7 +179,7 @@ server <- function(input, output, session) {
     server = TRUE
   )
   
-  tableServer("table_s5", table_list[["table_s5"]])
+  tableServer("table_s5", table_list[["table_s5"]], default_cols = default_columns_metabolites)
   tableServer("table_s10", table_list[["table_s10"]])
   tableServer("table_s12", table_list[["table_s12"]])
   tableServer("table_s14", table_list[["table_s14"]])
