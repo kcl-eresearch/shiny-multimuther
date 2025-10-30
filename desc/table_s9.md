@@ -1,4 +1,0 @@
-**Table S9**: Summary statistics for metabolome-wide association analyses of serum
-metabolite levels against seasonality in the MultiMuTHER study. Cosinor linear mixed 
-effects models were used to assess association with seasonality, employing a 5% 
-FDRBH threshold.
