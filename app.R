@@ -51,6 +51,8 @@ default_columns_genes <- c(
   "Individual-specific change over time"
 )
 
+default_columns_s8 <- c("GencodeID", "Gene", stringr::str_subset(names(table_list$table_s8), "BH-Adjusted P-value"))
+
 unique_metabolites <- unique(table_list$table_s5$BIOCHEMICAL)
 all_column_names_metabolites <- names(table_list$table_s5)
 default_columns_metabolites <- c(
@@ -111,19 +113,19 @@ header.append('<div style=\"float:right\"><ahref=\"URL\"><img src=\"MultiMuTHERL
     
     # Show the data tables
     tabsetPanel(
-      tabPanel("Longitudinal", tableUI("table_s2")),
+      tabPanel("Longitudinal", tableUI("table_s2", helper=FALSE)),
       
-      tabPanel("Cell-type specific longitudinal GEAS", tableUI("table_s8")),
+      tabPanel("Cell-type specific longitudinal GEAS", tableUI("table_s8", helper=FALSE)),
       
-      tabPanel("Longitudinal GxT cis-eQTL interaction", tableUI("table_s9")),
+      tabPanel("Longitudinal GxT cis-eQTL interaction", tableUI("table_s9", helper=FALSE)),
       
-      tabPanel("Time of visit", tableUI("table_s11")),
+      tabPanel("Time of visit", tableUI("table_s11", helper=FALSE)),
       
-      tabPanel("Seasonality", tableUI("table_s13")),
+      tabPanel("Seasonality", tableUI("table_s13", helper=FALSE)),
       
-      tabPanel("Serum PFOA", tableUI("table_s15")),
+      tabPanel("Serum PFOA", tableUI("table_s15", helper=FALSE)),
       
-      tabPanel("Serum PFOS", tableUI("table_s17")),
+      tabPanel("Serum PFOS", tableUI("table_s17", helper=FALSE)),
       
       
       
@@ -136,21 +138,21 @@ header.append('<div style=\"float:right\"><ahref=\"URL\"><img src=\"MultiMuTHERL
     
     # Show the data tables
     tabsetPanel(
-      tabPanel("Longitudinal", tableUI("table_s5")),
+      tabPanel("Longitudinal", tableUI("table_s5", helper=FALSE)),
       
-      tabPanel("Longitudinal GxT metQTL interaction", tableUI("table_s10")),
+      tabPanel("Longitudinal GxT metQTL interaction", tableUI("table_s10", helper=FALSE)),
       
-      tabPanel("Time of visit", tableUI("table_s12")),
+      tabPanel("Time of visit", tableUI("table_s12", helper=FALSE)),
       
-      tabPanel("Seasonality", tableUI("table_s14")),
+      tabPanel("Seasonality", tableUI("table_s14", helper=FALSE)),
       
-      tabPanel("Serum PFOA", tableUI("table_s16")),
+      tabPanel("Serum PFOA", tableUI("table_s16", helper=FALSE)),
       
-      tabPanel("Serum PFOS", tableUI("table_s18")),
+      tabPanel("Serum PFOS", tableUI("table_s18", helper=FALSE)),
       
     )
   ),
-  tabPanel(title = "Genes x Metabolites", tableUI("table_s19"))
+  tabPanel(title = "Genes x Metabolites", tableUI("table_s19", helper=FALSE))
   
 )
 
@@ -169,7 +171,8 @@ server <- function(input, output, session) {
   
   tableServer("table_s2", table_list[["table_s2"]], 
               default_cols = default_columns_genes, gene_name_cols = "Gene")
-  tableServer("table_s8", table_list[["table_s8"]], gene_name_cols = "Gene")
+  tableServer("table_s8", table_list[["table_s8"]], gene_name_cols = "Gene",
+              default_cols = default_columns_s8)
   tableServer("table_s9", table_list[["table_s9"]], gene_name_cols = "Gene")
   tableServer("table_s11", table_list[["table_s11"]], gene_name_cols = "Gene")
   tableServer("table_s13", table_list[["table_s13"]], gene_name_cols = "Gene")
