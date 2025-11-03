@@ -87,9 +87,14 @@ tableServer <- function(id, data, default_cols = NULL, gene_name_cols = NULL){
 ## Define UI ------------------------------------------------------------------
 
 ui <- navbarPage(
-  title = div(img(src = "MultiMuTHERLogo.png", width = 150), ""),
+  title = div(),
   windowTitle = "MultiMuTHER",
   theme = bslib::bs_theme(version = 5, preset = "flatly", font_scale = 1.25),
+  
+  tags$script(HTML("var header = $('.navbar > .container-fluid');
+header.append('<div style=\"float:right\"><ahref=\"URL\"><img src=\"MultiMuTHERLogo.png\" alt=\"alt\" style=\"float:right;width:180px;\"> </a></div>');
+    console.log(header)")
+  ),
   
   tabPanel(
     title = "About",
