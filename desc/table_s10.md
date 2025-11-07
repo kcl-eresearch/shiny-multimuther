@@ -1,0 +1,1 @@
+**Summary statistics for genome-wide association studies of longitudinal rates of change of metabolite levels**. Linear mixed effects models for individual longitudinal slopes for each metabolite were fitted genomewide for 909/915 metabolites, with variant-metabolite pairs significant at P < 1.8 x 10-10 shown. 

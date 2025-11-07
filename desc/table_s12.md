@@ -1,0 +1,1 @@
+**Summary statistics for metabolome-wide association analyses of serum metabolite levels against time of visit in the MultiMuTHER study**. Linear mixed effects models were used to assess association with time of clinical visit (5% FDR). 
