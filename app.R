@@ -9,7 +9,9 @@ sheets <- paste0("S", c(2, 5, 8:14, 19))
 sheets_with_extra_header_rows <- paste0("S", c(15:18))
 
 table_list <- lapply(sheets, function(s) {
-  tab <- readxl::read_excel("../data/MM_SupplementaryTables_20251027.xlsx", sheet = s)
+  tab <- readxl::read_excel("../data/MM_SupplementaryTables_20251027.xlsx", 
+                            sheet = s,
+                            na = c("", "NA"))
   names(tab) <- names(tab) %>% 
     gsub("_", " ", .) %>%
     gsub("Pvalue", "P-value", .)
