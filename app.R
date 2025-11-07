@@ -101,7 +101,7 @@ header.append('<div style=\"float:right\"><ahref=\"URL\"><img src=\"MultiMuTHERL
   tabPanel(
     title = "About",
     bslib::layout_columns(
-     img(src = "MultiMuTHERLogo.png", width = "200", alt = "MultiMuTHER logo"),
+      img(src = "MultiMuTHERLogo.png", width = "200", alt = "MultiMuTHER logo"),
       includeMarkdown("text/about.md"),
       col_widths = c(-2, 8, -2)
     )
@@ -113,19 +113,40 @@ header.append('<div style=\"float:right\"><ahref=\"URL\"><img src=\"MultiMuTHERL
     
     # Show the data tables
     tabsetPanel(
-      tabPanel("Longitudinal", tableUI("table_s2", helper=FALSE)),
+      tabPanel("Longitudinal", bslib::layout_columns(
+        tableUI("table_s2", helper=FALSE),
+        col_widths = c(-1, 10, -1)
+        )),
       
-      tabPanel("Cell-type specific longitudinal GEAS", tableUI("table_s8", helper=FALSE)),
+      tabPanel("Cell-type specific longitudinal GEAS", bslib::layout_columns(
+        tableUI("table_s8", helper=FALSE),
+        col_widths = c(-1, 10, -1)
+      )),
       
-      tabPanel("Longitudinal GxT cis-eQTL interaction", tableUI("table_s9", helper=FALSE)),
+      tabPanel("Longitudinal GxT cis-eQTL interaction", bslib::layout_columns(
+        tableUI("table_s9", helper=FALSE),
+        col_widths =  c(-1, 10, -1)
+      )),
       
-      tabPanel("Time of visit", tableUI("table_s11", helper=FALSE)),
+      tabPanel("Time of visit", bslib::layout_columns(
+        tableUI("table_s11", helper=FALSE),
+        col_widths =  c(-1, 10, -1)
+      )),
       
-      tabPanel("Seasonality", tableUI("table_s13", helper=FALSE)),
+      tabPanel("Seasonality", bslib::layout_columns(
+        tableUI("table_s13", helper=FALSE),
+        col_widths =  c(-1, 10, -1)
+      )),
       
-      tabPanel("Serum PFOA", tableUI("table_s15", helper=FALSE)),
+      tabPanel("Serum PFOA", bslib::layout_columns(
+        tableUI("table_s15", helper=FALSE),
+        col_widths =  c(-1, 10, -1)
+      )),
       
-      tabPanel("Serum PFOS", tableUI("table_s17", helper=FALSE)),
+      tabPanel("Serum PFOS", bslib::layout_columns(
+        tableUI("table_s17", helper=FALSE),
+        col_widths =  c(-1, 10, -1)
+      )),
       
       
       
@@ -138,17 +159,35 @@ header.append('<div style=\"float:right\"><ahref=\"URL\"><img src=\"MultiMuTHERL
     
     # Show the data tables
     tabsetPanel(
-      tabPanel("Longitudinal", tableUI("table_s5", helper=FALSE)),
+      tabPanel("Longitudinal", bslib::layout_columns(
+        tableUI("table_s5", helper=FALSE),
+        col_widths = c(-1, 10, -1)
+      )),
       
-      tabPanel("Longitudinal GxT metQTL interaction", tableUI("table_s10", helper=FALSE)),
+      tabPanel("Longitudinal GxT metQTL interaction",  bslib::layout_columns(
+        tableUI("table_s10", helper=FALSE),
+        col_widths = c(-1, 10, -1)
+      )),
       
-      tabPanel("Time of visit", tableUI("table_s12", helper=FALSE)),
+      tabPanel("Time of visit",  bslib::layout_columns(
+        tableUI("table_s12", helper=FALSE),
+        col_widths = c(-1, 10, -1)
+      )),
       
-      tabPanel("Seasonality", tableUI("table_s14", helper=FALSE)),
+      tabPanel("Seasonality",  bslib::layout_columns(
+        tableUI("table_s14", helper=FALSE),
+        col_widths = c(-1, 10, -1)
+      )),
       
-      tabPanel("Serum PFOA", tableUI("table_s16", helper=FALSE)),
+      tabPanel("Serum PFOA",  bslib::layout_columns(
+        tableUI("table_s16", helper=FALSE),
+        col_widths = c(-1, 10, -1)
+      )),
       
-      tabPanel("Serum PFOS", tableUI("table_s18", helper=FALSE)),
+      tabPanel("Serum PFOS",  bslib::layout_columns(
+        tableUI("table_s18", helper=FALSE),
+        col_widths = c(-1, 10, -1)
+      )),
       
     )
   ),
