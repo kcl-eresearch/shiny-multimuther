@@ -103,7 +103,9 @@ header.append('<div style=\"float:right\"><ahref=\"URL\"><img src=\"MultiMuTHERL
     bslib::layout_columns(
       img(src = "MultiMuTHERLogo.png", width = "200", alt = "MultiMuTHER logo"),
       includeMarkdown("text/about.md"),
-      col_widths = c(-2, 8, -2)
+      includeHTML("text/footer.html"),
+      col_widths = c(-2, 8, -2),
+      row_heights = c(1, 6, 1)
     )
   ),
   
