@@ -14,3 +14,9 @@ _paq.push(['enableLinkTracking']);
   var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
   g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
 })();
+
+// Event Tracking Code
+$(document).on('shiny:inputchanged', function(event) {
+  _paq.push(['trackEvent', 'input',
+    'updates', event.name, event.value]);
+});
