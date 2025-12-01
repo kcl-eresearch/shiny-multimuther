@@ -95,7 +95,7 @@ ui <- navbarPage(
   windowTitle = "MultiMuTHER",
   theme = bslib::bs_theme(version = 5, preset = "flatly", font_scale = 1.25),
   
-  tags$head(tags$script(includeScript("matomo.js"))),
+  tags$head(includeScript("matomo.js")),
   tags$script(HTML("var header = $('.navbar > .container-fluid');
 header.append('<div style=\"float:right\"><ahref=\"URL\"><img src=\"MultiMuTHERLogo.png\" alt=\"alt\" style=\"float:right;width:180px;\"> </a></div>');
     console.log(header)")
