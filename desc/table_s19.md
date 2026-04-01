@@ -1,1 +1,1 @@
-**Summary statistics for association analyses between whole blood gene expression and serum metabolite levels in the MultiMuTHER study**. Gene-metabolite pairs at BH-adjusted p-value ≤ 0.05 are shown. 
+**Summary statistics for association analyses between whole blood gene expression and serum metabolite levels in the MultiMuTHER study**. Gene-metabolite pairs at BH-adjusted p-value ≤ 0.05 are shown. N denotes the total number of observations included in the model, pooled across all participants and all available longitudinal timepoints.

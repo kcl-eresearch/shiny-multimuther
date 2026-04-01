@@ -5,11 +5,11 @@ library(BioTableModule)
 
 ## Read data ------------------------------------------------------------------
 
-sheets <- paste0("S", c(2, 5, 8:14, 19))
+sheets <- paste0("S", c(2, 5:14, 19))
 sheets_with_extra_header_rows <- paste0("S", c(15:18))
 
 table_list <- lapply(sheets, function(s) {
-  tab <- readxl::read_excel("../data/MM_SupplementaryTables_20251027.xlsx", 
+  tab <- readxl::read_excel("../data/MM_SupplementaryTables_Feb2026.xlsx", 
                             sheet = s,
                             na = c("", "NA"))
   names(tab) <- names(tab) %>% 
@@ -21,7 +21,7 @@ table_list <- lapply(sheets, function(s) {
 
 tables_with_extra_header_rows <- lapply(sheets_with_extra_header_rows, function(s) {
   tab <- readxl::read_excel(
-    "../data/MM_SupplementaryTables_20251027.xlsx",
+    "../data/MM_SupplementaryTables_Feb2026.xlsx",
     sheet = s,
     skip = 1,
     .name_repair = "minimal"
@@ -123,6 +123,11 @@ header.append('<div style=\"float:right\"><ahref=\"URL\"><img src=\"MultiMuTHERL
         col_widths = c(-1, 10, -1)
         )),
       
+      tabPanel("Time from baseline x age at baseline visit interaction GEAS", bslib::layout_columns(
+        tableUI("table_s6", helper=FALSE),
+        col_widths = c(-1, 10, -1)
+      )),
+      
       tabPanel("Cell-type specific longitudinal GEAS", bslib::layout_columns(
         tableUI("table_s8", helper=FALSE),
         col_widths = c(-1, 10, -1)
@@ -169,6 +174,11 @@ header.append('<div style=\"float:right\"><ahref=\"URL\"><img src=\"MultiMuTHERL
         col_widths = c(-1, 10, -1)
       )),
       
+      tabPanel("Time from baseline x age at baseline visit interaction MWAS", bslib::layout_columns(
+        tableUI("table_s7", helper=FALSE),
+        col_widths = c(-1, 10, -1)
+      )),
+      
       tabPanel("Longitudinal GxT metQTL interaction",  bslib::layout_columns(
         tableUI("table_s10", helper=FALSE),
         col_widths = c(-1, 10, -1)
@@ -196,8 +206,10 @@ header.append('<div style=\"float:right\"><ahref=\"URL\"><img src=\"MultiMuTHERL
       
     )
   ),
-  tabPanel(title = "Genes x Metabolites", tableUI("table_s19", helper=FALSE))
-  
+  tabPanel(title = "Genes x Metabolites", bslib::layout_columns(
+    tableUI("table_s19", helper=FALSE),
+    col_widths = c(-1, 10, -1)
+    ))
 )
 
 ## Define server logic --------------------------------------------------------
@@ -215,6 +227,7 @@ server <- function(input, output, session) {
   
   tableServer("table_s2", table_list[["table_s2"]], 
               default_cols = default_columns_genes, gene_name_cols = "Gene")
+  tableServer("table_s6", table_list[["table_s6"]], gene_name_cols = "Gene")
   tableServer("table_s8", table_list[["table_s8"]], gene_name_cols = "Gene",
               default_cols = default_columns_s8)
   tableServer("table_s9", table_list[["table_s9"]], gene_name_cols = "Gene")
@@ -232,13 +245,14 @@ server <- function(input, output, session) {
   )
   
   tableServer("table_s5", table_list[["table_s5"]], default_cols = default_columns_metabolites)
+  tableServer("table_s7", table_list[["table_s6"]], gene_name_cols = "Gene")
   tableServer("table_s10", table_list[["table_s10"]])
   tableServer("table_s12", table_list[["table_s12"]])
   tableServer("table_s14", table_list[["table_s14"]])
   tableServer("table_s16", table_list[["table_s16"]])
   tableServer("table_s18", table_list[["table_s18"]])
   
-  tableServer("table_s19", table_list[["table_s19"]])
+  tableServer("table_s19", table_list[["table_s19"]], gene_name_cols = "Gene")
 }
 
 ## Run the application --------------------------------------------------------
