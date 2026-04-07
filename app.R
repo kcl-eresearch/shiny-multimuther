@@ -5,11 +5,13 @@ library(BioTableModule)
 
 ## Read data ------------------------------------------------------------------
 
+input_file <- "../data/MM_SupplementaryTables_20260403.xlsx"
+
 sheets <- paste0("S", c(2, 5:14, 19))
 sheets_with_extra_header_rows <- paste0("S", c(15:18))
 
 table_list <- lapply(sheets, function(s) {
-  tab <- readxl::read_excel("../data/MM_SupplementaryTables_Feb2026.xlsx", 
+  tab <- readxl::read_excel(input_file, 
                             sheet = s,
                             na = c("", "NA"))
   names(tab) <- names(tab) %>% 
@@ -21,7 +23,7 @@ table_list <- lapply(sheets, function(s) {
 
 tables_with_extra_header_rows <- lapply(sheets_with_extra_header_rows, function(s) {
   tab <- readxl::read_excel(
-    "../data/MM_SupplementaryTables_Feb2026.xlsx",
+    input_file,
     sheet = s,
     skip = 1,
     .name_repair = "minimal"
